@@ -9,8 +9,17 @@ public enum Orientation {
      *
      * @return A char value equivalent to the `Orientation` enum
      */
+
     public char toChar() {
-        // FIXME Task 2
-        return 'N';
+        char c = ' ';
+        if (Orientation.NORTH.equals(this))
+            c = 'N';
+        if (Orientation.SOUTH.equals(this))
+            c= 'S';
+        if (Orientation.EAST.equals(this))
+            c = 'E';
+        if (Orientation.WEST.equals(this))
+            c= 'W';
+        return c;
     }
 }
