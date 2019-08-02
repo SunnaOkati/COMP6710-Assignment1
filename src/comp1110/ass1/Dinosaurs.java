@@ -119,6 +119,25 @@ public class Dinosaurs {
      */
     public static boolean isPlacementOnBoard(String placement) {
         // FIXME Task 5
+        int x = Character.getNumericValue(placement.charAt(1));
+        int y = Character.getNumericValue(placement.charAt(2));
+        char orientation = placement.charAt(3);
+        int row, column = 0;
+
+        if (orientation == 'E' || orientation == 'W'){
+            row = 2;
+            column = 1;
+        }
+        else
+        {
+            row = 1;
+            column = 2;
+        }
+
+        if ((x >=0) && ((x + row) < 5) && (y >=0) && ((y + column) < 4)){
+            return true;
+        }
+
         return false;
     }
 
