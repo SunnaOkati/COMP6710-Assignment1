@@ -63,6 +63,8 @@ public class Tile {
      */
     public static Location placementToLocation(String placement) {
         // FIXME Task 4
-       return new Location(0, 0);
+        int x = Character.getNumericValue(placement.charAt(1));
+        int y = Character.getNumericValue(placement.charAt(2));
+       return new Location(x, y);
     }
 }
