@@ -33,7 +33,23 @@ public class Tile {
      */
     public static Orientation placementToOrientation(String placement) {
         // FIXME Task 3
-        return NORTH;
+        char orientation = placement.charAt(3);
+        Orientation p = NORTH;
+        switch (orientation){
+            case 'N':
+                p= Orientation.NORTH;
+                break;
+            case 'S':
+                p= Orientation.SOUTH;
+                break;
+            case 'E':
+                p= Orientation.EAST;
+                break;
+            case 'W':
+                p= Orientation.WEST;
+                break;
+        }
+        return p;
     }
 
     /**
