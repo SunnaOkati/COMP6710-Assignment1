@@ -203,6 +203,22 @@ public class Dinosaurs {
      */
     public boolean doesPlacementOverlap(String placement) {
         // FIXME Task 6
+        int x = Character.getNumericValue(placement.charAt(1));
+        int y = Character.getNumericValue(placement.charAt(2));
+        char orientation = placement.charAt(3);
+        int row = 0, column = 0;
+
+        if (orientation == 'E' || orientation == 'W'){
+            row = 1;
+        }
+        else
+        {
+            column = 1;
+        }
+
+        if ((tiles[y][x] != null) || (tiles[y + column][x + row]!= null)){
+            return true;
+        }
         return false;
     }
 
