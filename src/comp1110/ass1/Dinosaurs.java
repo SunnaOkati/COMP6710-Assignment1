@@ -4,8 +4,7 @@ import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
-import static comp1110.ass1.Orientation.NORTH;
-import static comp1110.ass1.Orientation.SOUTH;
+import static comp1110.ass1.Orientation.*;
 import static comp1110.ass1.State.*;
 import static comp1110.ass1.TileType.*;
 
@@ -452,7 +451,85 @@ public class Dinosaurs {
      */
     public boolean isPlacementConsistent(String placement) {
         // FIXME Task 9
-        return false;
+        char orientation = placement.charAt(3);
+        char type = placement.charAt(0);
+        int y = Character.getNumericValue(placement.charAt(1));
+        int x = Character.getNumericValue(placement.charAt(2));
+        int limitX = 0, limitY= 0, chosen = 0;
+
+
+        switch (type){
+            case 'a':
+                chosen = 1;
+                break;
+            case 'b':
+                chosen = 2;
+                break;
+            case 'c':
+                chosen = 3;
+                break;
+            case 'd':
+                chosen = 4;
+                break;
+            case 'e':
+                chosen = 5;
+                break;
+            case 'f':
+                chosen = 6;
+                break;
+        }
+        switch (orientation){
+            case 'N':
+            case 'S':
+                limitX = 2;
+                limitY = 1;
+                break;
+            case 'E':
+            case 'W':
+                limitX = 1;
+                limitY = 2;
+                break;
+        }
+
+        State[] states = statemap[chosen-1];
+
+        //System.out.println("X limit: " +limitX + " Ylimit: "+ limitY);
+
+
+        for (int xoff = 0; xoff <= limitX ; xoff++)
+            for (int yoff = 0; yoff <limitY ; yoff++){
+                State tile = EMPTY;
+                switch (orientation) {
+                    case 'N':
+                        tile = (xoff == 2) ? null : states[(yoff*2)    +xoff    ];
+                        break;
+                    case 'E':
+                        tile = (yoff == 2) ? null : states[((2-xoff)*2)+yoff    ];
+                        break;
+                    case 'S':
+                        tile =  (xoff == 2) ? null : states[((2-yoff)*2)+(1-xoff)];
+                        break;
+                    case 'W':
+                        tile =  (yoff == 2) ? null : states[(xoff*2)    +(1-yoff)];
+                        break;
+                }
+                if ((boardstates[x+xoff][y+yoff] == EMPTY) || (boardstates[x+xoff][y+yoff] == GREEN) || (boardstates[x+xoff][y+yoff] == RED)){
+                    if ((tile == WATER)){
+                        //System.out.println("x off: " + xoff + " y off: " + yoff);
+                        //System.out.println("Tile :" +tile +" Board: " +boardstates[x+xoff][y+yoff]) ;
+                        return false;
+                    }
+                }
+                else if (boardstates[xoff][yoff] == WATER){
+                    if (tile != WATER){
+                        //System.out.println("x off: " + xoff + " y off: " + yoff);
+                        //System.out.println("Tile :" +tile +" Board: " +boardstates[xoff][yoff]) ;
+                        return  false;
+                    }
+                }
+            }
+
+        return true;
     }
 
     /**

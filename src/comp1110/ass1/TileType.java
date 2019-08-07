@@ -40,7 +40,7 @@ public enum TileType {
     return null;
   }
 
-  private static State[][] statemap = {
+  public static State[][] statemap = {
                 { WATER, EMPTY,
                   RED,   WATER,
                   WATER, EMPTY },
