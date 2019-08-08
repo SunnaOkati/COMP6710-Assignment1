@@ -79,6 +79,7 @@ public class Dinosaurs {
      * initial tile placements (initial game state).
      */
     public void initializeBoardState(String boardState) {
+        //System.out.println("Next:");
         for (int i = 0; i < boardState.length()/4; i++) {
             String placement = boardState.substring(i * 4, ((i + 1) * 4));
             addTileToBoard(placement);
@@ -156,7 +157,6 @@ public class Dinosaurs {
 
         /* update the tile data structure for the two squares that compose this tile */
         updateTiles(tile);
-
         /* update the states for each of the six points on the tile */
         updateBoardStates(tile);
     }
@@ -249,159 +249,39 @@ public class Dinosaurs {
      */
     private void updateBoardStates(Tile tile) {
         // FIXME Task 7 (part I)
+
         Location location = tile.getLocation();
         Orientation orientation = tile.getOrientation();
         TileType type = tile.getTileType();
         int y = location.getX();
         int x = location.getY();
         State name = EMPTY;
-
-        switch (type){
-            case A:
-            case C:
-            case F:
-                name = RED;
-                break;
-            case B:
-            case D:
-            case E:
-                name = GREEN;
-                break;
-        }
-
-        switch (orientation){
+        int tempX = 0;
+        int tempY = 0;
+        switch (orientation) {
             case NORTH:
-                if (type == A){
-                    if(boardstates[x][y] == EMPTY)
-                        boardstates[x][y] = name;
-                    if(boardstates[x+1][y] == EMPTY)
-                        boardstates[x+1][y] = name;
-                    if(boardstates[x+2][y]== EMPTY)
-                        boardstates[x+2][y]=name;
-                }
-                else if (type == B){
-                    for (int i = 0; i < 3 ;i++){
-                        if(boardstates[x+i][y] == EMPTY)
-                            boardstates[x+i][y] = name;
-                        if(boardstates[x+i][y+1] == EMPTY)
-                            boardstates[x+i][y+1] = name;
-                    }
-                }
-                else if ((type == C) || (type==D)){
-                    if(boardstates[x][y] == EMPTY)
-                        boardstates[x][y] = name;
-                    if(boardstates[x+1][y+1] == EMPTY)
-                        boardstates[x+1][y+1] = name;
-                }
-                else if (type == E){
-                    if(boardstates[x+2][y] == EMPTY)
-                        boardstates[x+2][y] = name;
-                    if(boardstates[x+1][y+1] == EMPTY)
-                        boardstates[x+1][y+1] = name;
-                }
-                else if(type == F){
-                    if(boardstates[x+2][y] == EMPTY)
-                        boardstates[x+2][y] = name;
-                    if(boardstates[x+1][y] == EMPTY)
-                        boardstates[x+1][y] = name;
-                }
-                break;
             case SOUTH:
-                if (type == A){
-                    if(boardstates[x+1][y+1] == EMPTY)
-                        boardstates[x+1][y+1] = name;
-                }
-                else if (type == B){
-                    for (int i = 0; i < 3 ;i++){
-                        if(boardstates[x+i][y] == EMPTY)
-                            boardstates[x+i][y] = name;
-                        if(boardstates[x+i][y+1] == EMPTY)
-                            boardstates[x+i][y+1] = name;
-                }
-                }
-                else if ((type == C) || (type == D)){
-                if(boardstates[x+1][y] == EMPTY)
-                    boardstates[x+1][y] = name;
-                if(boardstates[x+2][y+1] == EMPTY)
-                    boardstates[x+2][y+1] = name;
-                }
-                else if ( type == E){
-                    if(boardstates[x+1][y] == EMPTY)
-                        boardstates[x+1][y] = name;
-                    if(boardstates[x+1][y+1] == EMPTY)
-                        boardstates[x+1][y+1] = name;
-                }
-                else if (type == F){
-                    if(boardstates[x+2][y] == EMPTY)
-                        boardstates[x+2][y] = name;
-                    if(boardstates[x+1][y+1] == EMPTY)
-                        boardstates[x+1][y+1] = name;
-                }
-                break;
-            case EAST:
-                if (type == A){
-                    if(boardstates[x][y+1] == EMPTY)
-                        boardstates[x][y+1] = name;
-                }
-                else if (type == B) {
-                    for (int i = 0; i < 3; i++) {
-                        if (boardstates[x + i][y] == EMPTY)
-                            boardstates[x + i][y] = name;
-                        if (boardstates[x + i][y + 1] == EMPTY)
-                            boardstates[x + i][y + 1] = name;
+                for (int i = 0; i <= 2;i++){
+                    tempX = x + i;
+                    for (int j = 0; j <= 1;j++){
+                        tempY = y + j;
+                        if ((boardstates[tempX][tempY] != GREEN) && (boardstates[tempX][tempY] != RED))
+                            boardstates[tempX][tempY] = type.stateFromOffset(j,i,orientation);
                     }
-                }
-                else if ((type == C) && (type == D)){
-                        if(boardstates[x][y+2] == EMPTY)
-                            boardstates[x][y+2] = name;
-                        if(boardstates[x+1][y+1] == EMPTY)
-                            boardstates[x+1][y+1] = name;
-                }
-                else if (type== E){
-                    if(boardstates[x][y] == EMPTY)
-                        boardstates[x][y] = name;
-                    if(boardstates[x+1][y+1] == EMPTY)
-                        boardstates[x+1][y+1] = name;
-                }
-                else if(type == F){
-                    if(boardstates[x][y+1] == EMPTY)
-                        boardstates[x][y+1] = name;
-                    if(boardstates[x+1][y+2] == EMPTY)
-                        boardstates[x+1][y+2] = name;
                 }
                 break;
             case WEST:
-                if (type == A){
-                    if(boardstates[x+1][y+1] == EMPTY)
-                        boardstates[x+1][y+1] = name;
-                }
-                else if (type == B) {
-                    for (int i = 0; i < 3; i++) {
-                        if (boardstates[x][y + i] == EMPTY)
-                            boardstates[x][y + i] = name;
-                        if (boardstates[x + 1][y + i] == EMPTY)
-                            boardstates[x + 1][y + i] = name;
+            case EAST:
+                for (int i = 0; i <= 1;i++){
+                    tempX = x + i;
+                    for (int j = 0; j <= 2; j++){
+                        tempY = y + j;
+                        if ((boardstates[tempX][tempY] != GREEN) && (boardstates[tempX][tempY] != RED))
+                            boardstates[tempX][tempY] = type.stateFromOffset(j,i,orientation);
                     }
                 }
-                else if ((type == C) || (type == D)){
-                    if(boardstates[x][y+1] == EMPTY)
-                        boardstates[x][y+1] = name;
-                    if(boardstates[x+1][y] == EMPTY)
-                        boardstates[x+1][y] = name;
-                }
-                else if (type == E){
-                    if(boardstates[x][y+1] == EMPTY)
-                        boardstates[x][y+1] = name;
-                    if(boardstates[x+1][y+2] == EMPTY)
-                        boardstates[x+1][y+2] = name;
-                }
-                else if (type == F){
-                    if(boardstates[x][y] == EMPTY)
-                        boardstates[x][y] = name;
-                    if(boardstates[x+1][y+1] == EMPTY)
-                        boardstates[x+1][y+1] = name;
-                }
                 break;
+
         }
     }
 
@@ -451,84 +331,47 @@ public class Dinosaurs {
      */
     public boolean isPlacementConsistent(String placement) {
         // FIXME Task 9
-        char orientation = placement.charAt(3);
-        char type = placement.charAt(0);
-        int y = Character.getNumericValue(placement.charAt(1));
-        int x = Character.getNumericValue(placement.charAt(2));
-        int limitX = 0, limitY= 0, chosen = 0;
+        Tile tile = new Tile(placement);
+
+        Location location = tile.getLocation();
+        Orientation orientation = tile.getOrientation();
+        TileType type = tile.getTileType();
+        int y = location.getX();
+        int x = location.getY();
+        int tempX = 0, tempY = 0;
 
 
-        switch (type){
-            case 'a':
-                chosen = 1;
-                break;
-            case 'b':
-                chosen = 2;
-                break;
-            case 'c':
-                chosen = 3;
-                break;
-            case 'd':
-                chosen = 4;
-                break;
-            case 'e':
-                chosen = 5;
-                break;
-            case 'f':
-                chosen = 6;
-                break;
-        }
-        switch (orientation){
-            case 'N':
-            case 'S':
-                limitX = 2;
-                limitY = 1;
-                break;
-            case 'E':
-            case 'W':
-                limitX = 1;
-                limitY = 2;
-                break;
-        }
+        switch (orientation) {
+            case NORTH:
+            case SOUTH:
+                for (int i = 0; i <= 2;i++){
+                    tempX = x + i;
+                    for (int j = 0; j <= 1;j++){
+                        tempY = y + j;
+                        if ((boardstates[tempX][tempY] == WATER) && (type.stateFromOffset(j,i,orientation) != WATER)){
+                            return false;}
+                        else if (((boardstates[tempX][tempY] == GREEN) || (boardstates[tempX][tempY] == RED)|| (boardstates[tempX][tempY] == EMPTY) ) && (type.stateFromOffset(j,i,orientation) == WATER)){
+                            return false;
+                        }
 
-        State[] states = statemap[chosen-1];
-
-        //System.out.println("X limit: " +limitX + " Ylimit: "+ limitY);
-
-
-        for (int xoff = 0; xoff <= limitX ; xoff++)
-            for (int yoff = 0; yoff <limitY ; yoff++){
-                State tile = EMPTY;
-                switch (orientation) {
-                    case 'N':
-                        tile = (xoff == 2) ? null : states[(yoff*2)    +xoff    ];
-                        break;
-                    case 'E':
-                        tile = (yoff == 2) ? null : states[((2-xoff)*2)+yoff    ];
-                        break;
-                    case 'S':
-                        tile =  (xoff == 2) ? null : states[((2-yoff)*2)+(1-xoff)];
-                        break;
-                    case 'W':
-                        tile =  (yoff == 2) ? null : states[(xoff*2)    +(1-yoff)];
-                        break;
-                }
-                if ((boardstates[x+xoff][y+yoff] == EMPTY) || (boardstates[x+xoff][y+yoff] == GREEN) || (boardstates[x+xoff][y+yoff] == RED)){
-                    if ((tile == WATER)){
-                        //System.out.println("x off: " + xoff + " y off: " + yoff);
-                        //System.out.println("Tile :" +tile +" Board: " +boardstates[x+xoff][y+yoff]) ;
-                        return false;
                     }
                 }
-                else if (boardstates[xoff][yoff] == WATER){
-                    if (tile != WATER){
-                        //System.out.println("x off: " + xoff + " y off: " + yoff);
-                        //System.out.println("Tile :" +tile +" Board: " +boardstates[xoff][yoff]) ;
-                        return  false;
+                break;
+            case WEST:
+            case EAST:
+                for (int i = 0; i <= 1;i++){
+                    tempX = x + i;
+                    for (int j = 0; j <= 2; j++){
+                        tempY = y + j;
+                        if ((boardstates[tempX][tempY] == WATER) && (type.stateFromOffset(j,i,orientation) != WATER))
+                            return false;
+                        else if (((boardstates[tempX][tempY] == GREEN) || (boardstates[tempX][tempY] == RED)|| (boardstates[tempX][tempY] == EMPTY) )&& (type.stateFromOffset(j,i,orientation) == WATER))
+                            return false;
+
                     }
                 }
-            }
-
+                break;
+        }
         return true;
     }
 
@@ -543,6 +386,47 @@ public class Dinosaurs {
      */
     public boolean isPlacementDangerous(String placement) {
         // FIXME Task 10
+        Tile tile = new Tile(placement);
+
+        Location location = tile.getLocation();
+        Orientation orientation = tile.getOrientation();
+        TileType type = tile.getTileType();
+        int y = location.getX();
+        int x = location.getY();
+        int tempX = 0, tempY = 0;
+
+
+        switch (orientation) {
+            case NORTH:
+            case SOUTH:
+                for (int i = 0; i <= 2;i++){
+                    tempX = x + i;
+                    for (int j = 0; j <= 1;j++){
+                        tempY = y + j;
+                        if ((boardstates[tempX][tempY] == GREEN) && (type.stateFromOffset(j,i,orientation) == RED)){
+                            return true;}
+                        else if ((boardstates[tempX][tempY] == RED)  && (type.stateFromOffset(j,i,orientation) == GREEN)){
+                            return true;
+                        }
+
+                    }
+                }
+                break;
+            case WEST:
+            case EAST:
+                for (int i = 0; i <= 1;i++){
+                    tempX = x + i;
+                    for (int j = 0; j <= 2; j++){
+                        tempY = y + j;
+                        if ((boardstates[tempX][tempY] == GREEN) && (type.stateFromOffset(j,i,orientation) == RED)){
+                            return true;}
+                        else if ((boardstates[tempX][tempY] == RED)  && (type.stateFromOffset(j,i,orientation) == GREEN)){
+                            return true;
+                        }
+                    }
+                }
+                break;
+        }
         return false;
     }
 
@@ -561,6 +445,79 @@ public class Dinosaurs {
      */
     public boolean violatesObjective(String placement) {
         // FIXME Task 11
+        Tile tile = new Tile(placement);
+
+        Location location = tile.getLocation();
+        Orientation orientation = tile.getOrientation();
+        TileType type = tile.getTileType();
+        int y = location.getX();
+        int x = location.getY();
+        String connected = objective.getConnectedIslands();
+        String[] sep = new String[connected.length()/2];
+        for (int l = 0, m = 0; l< connected.length()/2; l++, m = m+2){
+            sep[l] ="" + connected.charAt(m) + connected.charAt(m+1);
+        }
+
+        int tempX = 0, tempY = 0;
+        String s = "";
+
+        switch (orientation) {
+            case NORTH:
+            case SOUTH:
+                System.out.println("Hi");
+                for (int i = 0; i <= 2;i++){
+                    tempX = x + i;
+                    for (int j = 0; j <= 1;j++){
+                        tempY = y + j;
+                        if ((type.stateFromOffset(j,i,orientation) == GREEN) || (type.stateFromOffset(j,i,orientation) == RED)) {
+                            s = ""+tempX + tempY;
+                            for ( int k = 0; k < connected.length()/2; k++){
+                                if (sep[k] == s){
+                                    if ( k%2 != 0){
+                                        if (type.stateFromOffset(j,i,orientation) != boardstates[Character.getNumericValue(sep[k-1].charAt(0))][Character.getNumericValue(sep[k-1].charAt(1))]){
+                                            return true;
+                                        }
+                                    }
+                                    else if (k%2 == 0){
+                                        if (type.stateFromOffset(j,i,orientation) != boardstates[Character.getNumericValue(sep[k+1].charAt(0))][Character.getNumericValue(sep[k+1].charAt(1))]){
+                                            return true;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+
+                    }
+                }
+                break;
+            case WEST:
+            case EAST:
+                System.out.println("Hi");
+                for (int i = 0; i <= 1;i++){
+                    tempX = x + i;
+                    for (int j = 0; j <= 2; j++){
+                        tempY = y + j;
+                        if ((type.stateFromOffset(j,i,orientation) == GREEN) || (type.stateFromOffset(j,i,orientation) == RED)) {
+                            s = ""+tempX + tempY;
+                            for ( int k = 0; k < connected.length()/2; k++){
+                                if (sep[k] == s){
+                                    if ( k%2 != 0){
+                                        if (type.stateFromOffset(j,i,orientation) != boardstates[Character.getNumericValue(sep[k-1].charAt(0))][Character.getNumericValue(sep[k-1].charAt(1))]){
+                                            return true;
+                                        }
+                                    }
+                                    else if (k%2 == 0){
+                                        if (type.stateFromOffset(j,i,orientation) != boardstates[Character.getNumericValue(sep[k+1].charAt(0))][Character.getNumericValue(sep[k+1].charAt(1))]){
+                                            return true;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+                break;
+        }
         return false;
     }
 
