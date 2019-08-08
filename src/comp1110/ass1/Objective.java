@@ -386,6 +386,8 @@ public class Objective {
         Objective objective = OBJECTIVES[0];
         int begin = 0;
         int end = 0;
+
+        // Used switch cases to select a level based on user input
         switch (difficulty){
             case 0:
                 begin = 0;
@@ -404,6 +406,8 @@ public class Objective {
                 end =  80;
                 break;
         }
+
+        // Used random, a pseudo randomiser, to select a random value among the interval.
         Random r = new Random();
         return OBJECTIVES[r.nextInt((end - begin) + 1) + begin];
     }

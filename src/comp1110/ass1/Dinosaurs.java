@@ -125,6 +125,7 @@ public class Dinosaurs {
         char orientation = placement.charAt(3);
         int row, column = 0;
 
+        // Used if condition for selection between orientations
         if (orientation == 'E' || orientation == 'W'){
             row = 2;
             column = 1;
@@ -135,6 +136,7 @@ public class Dinosaurs {
             column = 2;
         }
 
+        //Four conditions are checked to confirm the placement within board
         if ((x >=0) && ((x + row) < 5) && (y >=0) && ((y + column) < 4)){
             return true;
         }
@@ -208,6 +210,7 @@ public class Dinosaurs {
         char orientation = placement.charAt(3);
         int row = 0, column = 0;
 
+        // Used if condition for selection between orientations
         if (orientation == 'E' || orientation == 'W'){
             row = 1;
         }
@@ -216,6 +219,8 @@ public class Dinosaurs {
             column = 1;
         }
 
+        // Two conditions are checked, variable named 'tiles' of tile[][] data structure is used
+        //Refer Tile.java
         if ((tiles[y][x] != null) || (tiles[y + column][x + row]!= null)){
             return true;
         }
@@ -258,6 +263,8 @@ public class Dinosaurs {
         State name = EMPTY;
         int tempX = 0;
         int tempY = 0;
+
+        // Used switch case, to select among orientations
         switch (orientation) {
             case NORTH:
             case SOUTH:
@@ -265,6 +272,10 @@ public class Dinosaurs {
                     tempX = x + i;
                     for (int j = 0; j <= 1;j++){
                         tempY = y + j;
+                        //Made placements after checking "boardstates" variable of type state[][].
+                        // state is an enum with four distinct values N, E, S and W.
+                        // boardstates contains the state of the board which is of dimension 4 * 5
+                        // Refer State.java
                         if ((boardstates[tempX][tempY] != GREEN) && (boardstates[tempX][tempY] != RED))
                             boardstates[tempX][tempY] = type.stateFromOffset(j,i,orientation);
                     }
@@ -276,6 +287,10 @@ public class Dinosaurs {
                     tempX = x + i;
                     for (int j = 0; j <= 2; j++){
                         tempY = y + j;
+                        //Made placements after checking "boardstates" variable of type state[][].
+                        // state is an enum with four distinct values N, E, S and W.
+                        // boardstates contains the state of the board which is of dimension 4 * 5
+                        // Refer State.java & Tiletype.java
                         if ((boardstates[tempX][tempY] != GREEN) && (boardstates[tempX][tempY] != RED))
                             boardstates[tempX][tempY] = type.stateFromOffset(j,i,orientation);
                     }
@@ -331,6 +346,7 @@ public class Dinosaurs {
      */
     public boolean isPlacementConsistent(String placement) {
         // FIXME Task 9
+
         Tile tile = new Tile(placement);
 
         Location location = tile.getLocation();
@@ -340,7 +356,7 @@ public class Dinosaurs {
         int x = location.getY();
         int tempX = 0, tempY = 0;
 
-
+        //Used switch case to choose among orientations
         switch (orientation) {
             case NORTH:
             case SOUTH:
@@ -348,6 +364,11 @@ public class Dinosaurs {
                     tempX = x + i;
                     for (int j = 0; j <= 1;j++){
                         tempY = y + j;
+                        // Compared placements with the type of tile at a certain corner found using statefromoffset function
+                        // Checked consistency using two divisions - land(E, G & R) and water.
+                        // state is an enum with four distinct values N, E, S and W.
+                        // boardstates contains the state of the board which is of dimension 4 * 5
+                        // Refer State.java & Tiletype.java
                         if ((boardstates[tempX][tempY] == WATER) && (type.stateFromOffset(j,i,orientation) != WATER)){
                             return false;}
                         else if (((boardstates[tempX][tempY] == GREEN) || (boardstates[tempX][tempY] == RED)|| (boardstates[tempX][tempY] == EMPTY) ) && (type.stateFromOffset(j,i,orientation) == WATER)){
@@ -363,6 +384,11 @@ public class Dinosaurs {
                     tempX = x + i;
                     for (int j = 0; j <= 2; j++){
                         tempY = y + j;
+                        // Compared placements with the type of tile at a certain corner found using statefromoffset function
+                        // Checked consistency using two divisions - land(E, G & R) and water.
+                        // state is an enum with four distinct values N, E, S and W.
+                        // boardstates contains the state of the board which is of dimension 4 * 5
+                        // Refer State.java & Tiletype.java
                         if ((boardstates[tempX][tempY] == WATER) && (type.stateFromOffset(j,i,orientation) != WATER))
                             return false;
                         else if (((boardstates[tempX][tempY] == GREEN) || (boardstates[tempX][tempY] == RED)|| (boardstates[tempX][tempY] == EMPTY) )&& (type.stateFromOffset(j,i,orientation) == WATER))
@@ -403,6 +429,11 @@ public class Dinosaurs {
                     tempX = x + i;
                     for (int j = 0; j <= 1;j++){
                         tempY = y + j;
+                        // Compared placements with the type of tile at a certain corner found using statefromoffset function
+                        // Checked collision
+                        // state is an enum with four distinct values N, E, S and W.
+                        // boardstates contains the state of the board which is of dimension 4 * 5
+                        // Refer State.java & Tiletype.java
                         if ((boardstates[tempX][tempY] == GREEN) && (type.stateFromOffset(j,i,orientation) == RED)){
                             return true;}
                         else if ((boardstates[tempX][tempY] == RED)  && (type.stateFromOffset(j,i,orientation) == GREEN)){
@@ -418,6 +449,11 @@ public class Dinosaurs {
                     tempX = x + i;
                     for (int j = 0; j <= 2; j++){
                         tempY = y + j;
+                        // Compared placements with the type of tile at a certain corner found using statefromoffset function
+                        // Checked collision
+                        // state is an enum with four distinct values N, E, S and W.
+                        // boardstates contains the state of the board which is of dimension 4 * 5
+                        // Refer State.java & Tiletype.java
                         if ((boardstates[tempX][tempY] == GREEN) && (type.stateFromOffset(j,i,orientation) == RED)){
                             return true;}
                         else if ((boardstates[tempX][tempY] == RED)  && (type.stateFromOffset(j,i,orientation) == GREEN)){
@@ -453,13 +489,13 @@ public class Dinosaurs {
         int y = location.getX();
         int x = location.getY();
         String connected = objective.getConnectedIslands();
-        String[] sep = new String[connected.length()/2];
+        int[] sep = new int[connected.length()/2];
         for (int l = 0, m = 0; l< connected.length()/2; l++, m = m+2){
-            sep[l] ="" + connected.charAt(m) + connected.charAt(m+1);
+            sep[l] = Integer.parseInt(connected.substring(m,m+1));
         }
 
         int tempX = 0, tempY = 0;
-        String s = "";
+        int s = 0;
 
         switch (orientation) {
             case NORTH:
@@ -470,16 +506,16 @@ public class Dinosaurs {
                     for (int j = 0; j <= 1;j++){
                         tempY = y + j;
                         if ((type.stateFromOffset(j,i,orientation) == GREEN) || (type.stateFromOffset(j,i,orientation) == RED)) {
-                            s = ""+tempX + tempY;
+                            s = (tempX * 10) + tempY;
                             for ( int k = 0; k < connected.length()/2; k++){
                                 if (sep[k] == s){
                                     if ( k%2 != 0){
-                                        if (type.stateFromOffset(j,i,orientation) != boardstates[Character.getNumericValue(sep[k-1].charAt(0))][Character.getNumericValue(sep[k-1].charAt(1))]){
+                                        if (type.stateFromOffset(j,i,orientation) != boardstates[Character.getNumericValue(sep[k-1]/10)][Character.getNumericValue(sep[k-1]%10)]){
                                             return true;
                                         }
                                     }
                                     else if (k%2 == 0){
-                                        if (type.stateFromOffset(j,i,orientation) != boardstates[Character.getNumericValue(sep[k+1].charAt(0))][Character.getNumericValue(sep[k+1].charAt(1))]){
+                                        if (type.stateFromOffset(j,i,orientation) != boardstates[Character.getNumericValue(sep[k+1]/10)][Character.getNumericValue(sep[k+1]%10)]){
                                             return true;
                                         }
                                     }
@@ -498,16 +534,16 @@ public class Dinosaurs {
                     for (int j = 0; j <= 2; j++){
                         tempY = y + j;
                         if ((type.stateFromOffset(j,i,orientation) == GREEN) || (type.stateFromOffset(j,i,orientation) == RED)) {
-                            s = ""+tempX + tempY;
+                            s = (tempX * 10) + tempY;
                             for ( int k = 0; k < connected.length()/2; k++){
                                 if (sep[k] == s){
                                     if ( k%2 != 0){
-                                        if (type.stateFromOffset(j,i,orientation) != boardstates[Character.getNumericValue(sep[k-1].charAt(0))][Character.getNumericValue(sep[k-1].charAt(1))]){
+                                        if (type.stateFromOffset(j,i,orientation) != boardstates[Character.getNumericValue(sep[k-1]%10)][Character.getNumericValue(sep[k-1]/10)]){
                                             return true;
                                         }
                                     }
                                     else if (k%2 == 0){
-                                        if (type.stateFromOffset(j,i,orientation) != boardstates[Character.getNumericValue(sep[k+1].charAt(0))][Character.getNumericValue(sep[k+1].charAt(1))]){
+                                        if (type.stateFromOffset(j,i,orientation) != boardstates[Character.getNumericValue(sep[k+1]%10)][Character.getNumericValue(sep[k+1]/10)]){
                                             return true;
                                         }
                                     }

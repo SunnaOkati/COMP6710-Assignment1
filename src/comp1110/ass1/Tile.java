@@ -33,6 +33,7 @@ public class Tile {
      */
     public static Orientation placementToOrientation(String placement) {
         // FIXME Task 3
+        //Used switch case
         char orientation = placement.charAt(3);
         Orientation p = NORTH;
         switch (orientation){
@@ -63,6 +64,7 @@ public class Tile {
      */
     public static Location placementToLocation(String placement) {
         // FIXME Task 4
+        // Separated characters(co-ordinates) from string "placement"
         int x = Character.getNumericValue(placement.charAt(1));
         int y = Character.getNumericValue(placement.charAt(2));
        return new Location(x, y);
